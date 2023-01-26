@@ -14,9 +14,10 @@ const lines = [
 function App() {
   const [squares, setSquares] = useState(defaultSquares());
   const [winner,setWinner] = useState(null);
+  const [winsLossesDraws,setwinsLossesDraws] = useState({wins:0,losses:0,draws:0})
 
+  let isPlayerWon = false;
   useEffect(() => {
-    const isComputerTurn = squares.filter(square => square !== null).length % 2 === 1;
     const linesThatAre = (a,b,c) => {
       return lines.filter(squareIndexes => {
         const squareValues = squareIndexes.map(index => squares[index]);
@@ -31,17 +32,28 @@ function App() {
 
     if (playerWon) {
       setWinner('x');
+      setwinsLossesDraws(winsLossesDraws => {return {...winsLossesDraws, wins: winsLossesDraws.wins + 1}});
+      isPlayerWon = true;
     }
-    if (computerWon){
+    else if (computerWon){
       setWinner('o');
+      setwinsLossesDraws(winsLossesDraws => {return {...winsLossesDraws, losses: winsLossesDraws.losses + 1}});
+    }
+    else if (emptyIndexes.length === 1){
+      setWinner('draw');
+      setwinsLossesDraws(winsLossesDraws => {return {...winsLossesDraws, draws: winsLossesDraws.draws + 1}});
     }
 
     const putComputerAt =index => {
-      let newSquares = squares;
-      newSquares[index] = 'o';
-      setSquares([...newSquares]);
+      setSquares(prevSquare => {
+        let newSquares = [...prevSquare];
+        newSquares[index] = 'o';
+        return newSquares;
+      });
     };
-    if(isComputerTurn){
+
+    const isComputerTurn = squares.filter(square => square !== null).length % 2 === 1;
+    if(isComputerTurn && isPlayerWon === false){
 
       // COMPUTER PUT 'O' TO WIN THE GAME //
       const winningLines = linesThatAre('o','o',null);
@@ -68,22 +80,30 @@ function App() {
 
       // COMPUTER PUT 'O' TO A RANDOM PLAYER WHEN GAME BEGINS (only executing when it is computer's first put) //
       const randomIndex = emptyIndexes[Math.ceil(Math.random()*emptyIndexes.length)]
-      putComputerAt(randomIndex)
+      if (emptyIndexes.length > 0){
+        putComputerAt(randomIndex);
+      }
     }
 
   },[squares]);
-
+  
   function handleSquareClick(index) {
-    const isPlayerTurn = squares.filter(square => square !== null).length % 2 === 0;
-    if (isPlayerTurn) {
-      const newSquares = squares;
-      newSquares[index] = 'x'
-      setSquares([...newSquares]);
-    }
+      const isPlayerTurn = squares.filter(square => square !== null).length % 2 === 0;
+      if (isPlayerTurn && winner === null) {
+        const newSquares = squares;
+        newSquares[index] = 'x'
+        setSquares([...newSquares]);
+      }
+  }
+
+  const resetBoard = () => {
+      setSquares(new Array(9).fill(null));
+      setWinner(null);
   }
 
   return (
     <main>
+      <h1>Tic Tac Toe</h1>
       <Board>
         {squares.map((square,index) => 
         <Square 
@@ -91,14 +111,23 @@ function App() {
           o = {square==='o'?1:0}
           onClick={() => handleSquareClick(index)} />)}
       </Board>
+      <h3>Wins: {winsLossesDraws.wins} Losses: {winsLossesDraws.losses} Draws: {winsLossesDraws.draws}</h3>
       {!!winner && winner === 'x' && (
         <div className="result green">
           You WON!
+          <button onClick={resetBoard}>Reset</button>
         </div>
       )}
       {!!winner && winner === 'o' && (
         <div className="result red">
           You LOST!
+          <button onClick={resetBoard}>Reset</button>
+        </div>
+      )}
+      {!!winner && winner === 'draw' && (
+        <div className="result gray">
+          It's a DRAW!
+          <button onClick={resetBoard}>Reset</button>
         </div>
       )}
     </main>

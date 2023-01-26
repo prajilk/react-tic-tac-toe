@@ -7,6 +7,9 @@ main {
     width: 300px;
     margin: 50px auto 0;
 }
+main h1, h3 {
+    text-align: center;
+}
 div.board {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -20,15 +23,29 @@ div.square {
     box-sizing: border-box;
     cursor: pointer;
     font-size: 4rem;
+    font-weight: bolder;
     text-align: center;
 }
+div.square.red {
+    color: red;
+}
+div.square.blue {
+    color: blue;
+}
 div.result {
-    font-size: 2rem;
+    font-size: 1.5rem;
     padding: 10px;
+}
+div.result button {
+    float: right;
+    padding: 5px;
 }
 div.result.green {
     background-color: #5a5;
 }
 div.result.red {
     background-color: #a55;
+}
+div.result.gray {
+    background-color: gray;
 }
