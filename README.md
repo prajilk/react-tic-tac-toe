@@ -10,11 +10,6 @@ This project demonstrates the creation of a Tic-Tac-Toe game utilizing the React
 
 ## Watch live [Demo](https://prajilk.github.io/react-tic-tac-toe)
 
-## 🔗 Social
-
-[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/prajilk/)
-## Visit my [website](https://prajilk.github.io)
-
 # 💥 How to Contribute
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/prajilk/react-tic-tac-toe/pulls)
@@ -95,3 +90,8 @@ git push origin YourBranchName
 
 
 ## All the best! 🥇
+
+## 🔗 Social
+
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/prajilk/)
+## Visit my [website](https://prajilk.github.io)
